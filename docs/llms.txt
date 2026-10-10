@@ -1,0 +1,19 @@
+# @three-ws/agent-guards
+
+> Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.
+
+@three-ws/agent-guards is a JavaScript library from three.ws. Install: `npm install @three-ws/agent-guards`.
+
+## Docs
+
+- [README](https://github.com/nirholas/agent-guards/blob/main/README.md): install, configuration, full reference
+- [Documentation site](https://nirholas.github.io/agent-guards/): the README as a web page
+- [Full text for LLMs](https://nirholas.github.io/agent-guards/llms-full.txt): README inlined
+- [AGENTS.md](https://github.com/nirholas/agent-guards/blob/main/AGENTS.md): guidance for coding agents
+
+## Project
+
+- [Source](https://github.com/nirholas/agent-guards)
+- [npm](https://www.npmjs.com/package/@three-ws/agent-guards)
+- [three.ws](https://three.ws): the platform this is part of
+- [Issues](https://github.com/nirholas/agent-guards/issues)

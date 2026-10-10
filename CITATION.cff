@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: "@three-ws/agent-guards"
+abstract: "Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK."
+version: 0.1.2
+license: Apache-2.0
+repository-code: "https://github.com/nirholas/agent-guards"
+url: "https://three.ws"
+authors:
+  - name: three.ws
+    website: "https://three.ws"

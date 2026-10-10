@@ -1,0 +1,55 @@
+{
+	"name": "@three-ws/agent-guards",
+	"version": "0.1.2",
+	"description": "Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.",
+	"type": "module",
+	"main": "./src/index.js",
+	"module": "./src/index.js",
+	"types": "./src/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"import": "./src/index.js",
+			"default": "./src/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"test": "node --test test/*.test.js"
+	},
+	"keywords": [
+		"agent",
+		"autonomous",
+		"spend-policy",
+		"spend-limit",
+		"trade-guard",
+		"kill-switch",
+		"solana",
+		"custody",
+		"guardrails",
+		"three.ws",
+		"ai-agents"
+	],
+	"author": "nirholas <support@three.ws>",
+	"license": "Apache-2.0",
+	"homepage": "https://nirholas.github.io/agent-guards/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nirholas/agent-guards.git"
+	},
+	"bugs": {
+		"url": "https://github.com/nirholas/agent-guards/issues"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"dependencies": {},
+	"publishConfig": {
+		"access": "public"
+	}
+}

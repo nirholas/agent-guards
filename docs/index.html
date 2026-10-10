@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/agent-guards: Safety rails for autonomous agents</title>
+<meta name="description" content="Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.">
+<link rel="canonical" href="https://nirholas.github.io/agent-guards/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/agent-guards">
+<meta property="og:description" content="Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.">
+<meta property="og:url" content="https://nirholas.github.io/agent-guards/">
+<meta property="og:image" content="https://nirholas.github.io/agent-guards/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/agent-guards">
+<meta name="twitter:description" content="Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.">
+<meta name="twitter:image" content="https://nirholas.github.io/agent-guards/og.png">
+<meta name="keywords" content="agent, autonomous, spend-policy, spend-limit, trade-guard, kill-switch, solana, custody, guardrails, three.ws, ai-agents">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/agent-guards","description":"Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.","codeRepository":"https://github.com/nirholas/agent-guards","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"0.1.2","url":"https://nirholas.github.io/agent-guards/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"agent, autonomous, spend-policy, spend-limit, trade-guard, kill-switch, solana, custody, guardrails, three.ws, ai-agents"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/agent-guards/">@three-ws/agent-guards</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/agent-guards">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/agent-guards">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/agent-guards</h1>
+<p>Safety rails for autonomous agents — per-agent spend policies and trade guards that cap what an agent can spend or trade before a transaction is signed. The three.ws agent custody SDK.</p>
+<div class="install" role="group" aria-label="Install command"><code>npm install @three-ws/agent-guards</code><button type="button" data-copy="npm install @three-ws/agent-guards">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/agent-guards">View on GitHub</a><a href="https://github.com/nirholas/agent-guards/stargazers">Star the repo</a></div>
+</section>
+<div class="layout">
+<main id="content"><p align="center"><strong>Safety rails for autonomous agents — cap what an agent can spend or trade before a transaction is ever signed.</strong></p><p align="center">
+  <a href="https://www.npmjs.com/package/@three-ws/agent-guards"><img alt="npm" src="https://img.shields.io/npm/v/@three-ws/agent-guards?logo=npm&color=cb3837"></a>
+  <a href="https://www.npmjs.com/package/@three-ws/agent-guards"><img alt="downloads" src="https://img.shields.io/npm/dm/@three-ws/agent-guards?color=cb3837"></a>
+  <img alt="license" src="https://img.shields.io/npm/l/@three-ws/agent-guards?color=3b82f6">
+  <img alt="node" src="https://img.shields.io/node/v/@three-ws/agent-guards?color=339933&logo=node.js">
+</p><p align="center">
+  <a href="#install">Install</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#api">API</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="https://three.ws">three.ws</a>
+</p><hr>
+<blockquote>
+<p><code>@three-ws/agent-guards</code> is the official client for the three.ws <strong>agent custody
+guardrails</strong> — the same policy engine that governs every outbound movement of a
+custodial agent wallet on the platform. It lets an owner set hard spend and trade
+ceilings on an agent, and lets a caller pre-check a proposed buy/sell against
+those ceilings <em>before</em> signing. One policy is enforced uniformly across all four
+custody paths — discretionary trade, autonomous snipe, x402 pay, and owner
+withdraw — so an agent (or a stolen session token) can never drain a wallet past
+the leash its owner set. It wraps the live <code>/api/agents/:id/trade</code> and
+<code>/api/agents/:id/trade/limits</code> endpoints. All trading is SOL-quoted on Solana;
+the only coin three.ws promotes is <a href="https://three.ws">$THREE</a>.</p>
+</blockquote>
+<h2 id="why"><a class="anchor" href="#why" aria-label="Link to this section">#</a>Why</h2>
+<p>An autonomous agent that can sign transactions is a loaded gun pointed at a wallet.
+The moment you hand an LLM a key, you need an answer to one question on <em>every</em>
+action: <strong>is this allowed?</strong> Hand-rolling that answer means re-deriving the same
+math in four places — and the day the trade path and the snipe path disagree on
+the daily cap is the day a wallet gets drained.</p>
+<p>three.ws solves it once, server-side, as a single policy:</p>
+<ul>
+<li><strong>Two-tier ceilings.</strong> A per-transaction cap stops one oversized trade; a
+rolling 24-hour cap stops a thousand small ones. Both are enforced atomically
+under a per-agent lock, so concurrent spends can&#39;t race past the limit.</li>
+<li><strong>A real kill switch.</strong> Flip <code>kill_switch</code> (trades) or <code>frozen</code> (all autonomous
+paths) and every outbound action is rejected immediately — but the owner&#39;s own
+withdraw stays open, so a freeze locks down a misbehaving agent without trapping
+its funds.</li>
+<li><strong>Circuit breakers, not just caps.</strong> A price-impact breaker and a slippage
+ceiling reject trades that would execute at a bad price, independent of size.</li>
+<li><strong>Owner-set, opt-in.</strong> An unset ceiling means &quot;no global cap&quot; — existing flows
+keep working. The moment an owner tightens the policy it becomes a hard limit
+applied everywhere.</li>
+</ul>
+<p>This SDK is the programmatic twin of the <strong>Limits &amp; Safety</strong> surface in the
+three.ws agent dashboard — the same policy, exposed as plain functions instead of
+a settings panel.</p>
+<h2 id="install"><a class="anchor" href="#install" aria-label="Link to this section">#</a>Install</h2>
+<pre><code class="language-bash">npm install @three-ws/agent-guards
+</code></pre>
+<p>Zero runtime dependencies. Works in Node 18+ and the browser (uses <code>fetch</code>).
+Setting or reading a policy is an owner-only action and requires the agent owner&#39;s
+session cookie or bearer token.</p>
+<h2 id="quick-start"><a class="anchor" href="#quick-start" aria-label="Link to this section">#</a>Quick start</h2>
+<p>Read an agent&#39;s current trade policy, then set a leash:</p>
+<pre><code class="language-js">import { guards } from &#39;@three-ws/agent-guards&#39;;
+
+const a = guards(&#39;agent_abc123&#39;, { token: process.env.THREE_WS_TOKEN });
+
+// Set the rails: 0.5 SOL per trade, 2 SOL/day, reject &gt;10% price impact.
+await a.setTradeLimits({
+  per_trade_sol: 0.5,
+  daily_budget_sol: 2,
+  max_price_impact_pct: 10,
+  max_slippage_bps: 500,
+});
+</code></pre>
+<p>Pre-check a proposed buy before you commit to signing it. <code>simulate: true</code> runs the
+full quote → guard pipeline and returns the decision without moving funds:</p>
+<pre><code class="language-js">const decision = await a.checkTrade({ side: &#39;buy&#39;, mint, amount: 0.3 });
+
+if (!decision.allowed) {
+  console.log(decision.reason);   // e.g. &#39;per_trade_cap&#39;
+  console.log(decision.message);  // human-readable, actionable
+} else {
+  await a.trade({ side: &#39;buy&#39;, mint, amount: 0.3 }); // really executes
+}
+</code></pre>
+<p>The kill switch, in one line:</p>
+<pre><code class="language-js">await a.setTradeLimits({ kill_switch: true }); // every discretionary trade now rejected
+</code></pre>
+<h2 id="local-guards-no-network-no-token"><a class="anchor" href="#local-guards-no-network-no-token" aria-label="Link to this section">#</a>Local guards (no network, no token)</h2>
+<p>The package ships the guard pipeline itself as pure functions, not just a client
+for the hosted one. <code>policy()</code> normalizes a loose patch into the same bounded
+leash the server would store, and <code>guard()</code> runs a proposed movement through
+every predicate in the server&#39;s order. Nothing is fetched and nothing is signed,
+so this half needs no token and runs in a browser, a test, or a simulator:</p>
+<pre><code class="language-js">import { policy, guard } from &#39;@three-ws/agent-guards&#39;;
+
+const p = policy({ per_trade_sol: 0.5, daily_budget_sol: 2, max_concurrent: 3 });
+
+guard({ side: &#39;buy&#39;, amountSol: 0.9, priceImpactPct: 2 }, p);
+// {
+//   allow: false,
+//   reason: &#39;per_trade_cap&#39;,
+//   message: &#39;This trade of 0.9 SOL is over the per-trade cap of 0.5 SOL. Lower the
+//             amount or raise the cap under Limits &amp; Safety.&#39;,
+//   detail: { amount_lamports: &#39;900000000&#39;, cap_lamports: &#39;500000000&#39; },
+// }
+</code></pre>
+<p>You supply the live numbers the guards compare against, exactly as the server
+does: <code>amountSol</code> (or <code>amountLamports</code>), <code>priceImpactPct</code>, <code>openCount</code>,
+<code>spentLamports</code> (rolling 24h SOL), <code>walletLamports</code>, <code>usdValue</code>, <code>spentUsd</code>, and
+<code>destination</code> for a withdraw. Omit one and the guard that needs it is skipped
+rather than guessing, so feed it everything you want enforced.</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>policy(patch)</code></td>
+<td>Normalize + bound a patch. Clamps <code>max_price_impact_pct</code> to 0-100, <code>max_slippage_bps</code> to 0-10000, <code>max_concurrent</code> to 1-10000; booleans coerce strictly to <code>=== true</code>.</td>
+</tr>
+<tr>
+<td><code>guard(tx, policy)</code></td>
+<td>Run every predicate in server order. Returns <code>{ allow, reason, message, detail }</code>.</td>
+</tr>
+<tr>
+<td><code>checkKillSwitch</code> · <code>checkFrozen</code> · <code>checkPriceImpact</code> · <code>checkPerTradeCap</code> · <code>checkConcurrency</code> · <code>checkDailyBudgetLamports</code> · <code>checkPerTxUsd</code> · <code>checkDailyUsd</code> · <code>checkSolHeadroom</code> · <code>checkAllowlist</code></td>
+<td>The individual predicates. Each returns <code>null</code> when the trade clears, or <code>{ reason, detail }</code> when it blocks.</td>
+</tr>
+<tr>
+<td><code>TRADE_LIMIT_DEFAULTS</code> · <code>SPEND_LIMIT_DEFAULTS</code></td>
+<td>The platform defaults applied when an owner has set no policy.</td>
+</tr>
+<tr>
+<td><code>LAMPORTS_PER_SOL</code> · <code>SOL_FEE_HEADROOM_LAMPORTS</code></td>
+<td>The lamport constants the caps are denominated in (headroom is ~0.003 SOL).</td>
+</tr>
+</tbody></table>
+<p>Note the shape difference: the local <code>guard()</code> returns <code>allow</code>, while the hosted
+<code>checkTrade()</code> below returns <code>allowed</code>. The <code>reason</code> codes are identical across
+both, so a UI can share one renderer.</p>
+<h2 id="api"><a class="anchor" href="#api" aria-label="Link to this section">#</a>API</h2>
+<h3 id="guardsagentid-options-agentguards"><a class="anchor" href="#guardsagentid-options-agentguards" aria-label="Link to this section">#</a><code>guards(agentId, options?) → AgentGuards</code></h3>
+<p>Bind the client to one agent. <code>options.token</code> is the owner&#39;s bearer token, or pass
+<code>options.cookie</code> for a session. <code>options.baseUrl</code> overrides the default
+<code>https://three.ws</code>.</p>
+<h3 id="gettradelimits-promisetradelimits-defaults"><a class="anchor" href="#gettradelimits-promisetradelimits-defaults" aria-label="Link to this section">#</a><code>.getTradeLimits() → Promise&lt;TradeLimits &amp; { defaults }&gt;</code></h3>
+<p><code>GET /api/agents/:id/trade/limits</code>. Returns the effective discretionary-trade
+policy plus the platform defaults. Lamport/SOL-denominated knobs that govern the
+agent&#39;s own buys:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>per_trade_sol</code></td>
+<td><code>number | null</code></td>
+<td><code>null</code></td>
+<td>Max SOL on any single buy. <code>null</code> = uncapped.</td>
+</tr>
+<tr>
+<td><code>daily_budget_sol</code></td>
+<td><code>number | null</code></td>
+<td><code>null</code></td>
+<td>Rolling-24h SOL buy budget across trade <strong>and</strong> snipe. <code>null</code> = uncapped.</td>
+</tr>
+<tr>
+<td><code>max_price_impact_pct</code></td>
+<td><code>number</code></td>
+<td><code>15</code></td>
+<td>Circuit breaker — reject a trade over this price impact.</td>
+</tr>
+<tr>
+<td><code>max_slippage_bps</code></td>
+<td><code>number</code></td>
+<td><code>1000</code></td>
+<td>Ceiling on client-supplied slippage (basis points).</td>
+</tr>
+<tr>
+<td><code>max_concurrent</code></td>
+<td><code>number | null</code></td>
+<td><code>null</code></td>
+<td>Max open discretionary positions. <code>null</code> = unlimited.</td>
+</tr>
+<tr>
+<td><code>kill_switch</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>When <code>true</code>, every discretionary trade is rejected.</td>
+</tr>
+</tbody></table>
+<h3 id="settradelimitspatch-promisetradelimits"><a class="anchor" href="#settradelimitspatch-promisetradelimits" aria-label="Link to this section">#</a><code>.setTradeLimits(patch) → Promise&lt;TradeLimits&gt;</code></h3>
+<p><code>PUT /api/agents/:id/trade/limits</code>. Owner-only, CSRF-gated (bearer callers exempt).
+A <strong>patch</strong> — only the keys you pass change; the rest are preserved. Values are
+normalized and bounded server-side (<code>max_price_impact_pct</code> clamps to 0–100,
+<code>max_slippage_bps</code> to 0–10000, <code>max_concurrent</code> to 1–10000). Returns the new policy.</p>
+<h3 id="checktrade-side-mint-amount-promisedecision"><a class="anchor" href="#checktrade-side-mint-amount-promisedecision" aria-label="Link to this section">#</a><code>.checkTrade({ side, mint, amount, ... }) → Promise&lt;Decision&gt;</code></h3>
+<p>Pre-flight a trade against every guard without moving funds — wraps the live
+<code>POST /api/agents/:id/trade</code> with <code>simulate: true</code>. Returns:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>allowed</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code> if the trade clears every guard.</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td><code>string | null</code></td>
+<td>Machine code when blocked — see <a href="#guard-reasons">reasons</a>.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string | null</code></td>
+<td>Plain-language, actionable explanation.</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>object</code></td>
+<td>The numbers behind the decision (amounts, caps, spent-so-far).</td>
+</tr>
+</tbody></table>
+<h3 id="trade-side-mint-amount-promisetraderesult"><a class="anchor" href="#trade-side-mint-amount-promisetraderesult" aria-label="Link to this section">#</a><code>.trade({ side, mint, amount, ... }) → Promise&lt;TradeResult&gt;</code></h3>
+<p><code>POST /api/agents/:id/trade</code>. Executes the real trade — runs the identical
+quote → guard → build → custody-claim → sign → confirm pipeline, so it can never
+exceed the policy <code>checkTrade</code> reported on.</p>
+<p><strong>Request body</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>side</code></td>
+<td><code>&#39;buy&#39; | &#39;sell&#39;</code></td>
+<td>Buys spend SOL; sells move SOL inward. Required.</td>
+</tr>
+<tr>
+<td><code>mint</code></td>
+<td><code>string</code></td>
+<td>Base58 Solana mint of the coin to trade. Required.</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td><code>number | &#39;max&#39;</code></td>
+<td>Buy: SOL to spend. Sell: tokens to sell, or <code>&#39;max&#39;</code>.</td>
+</tr>
+<tr>
+<td><code>slippageBps</code></td>
+<td><code>number</code></td>
+<td>Slippage in bps. Clamped to <code>max_slippage_bps</code>.</td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td><code>string</code></td>
+<td><code>mainnet</code> (default) or <code>devnet</code>.</td>
+</tr>
+<tr>
+<td><code>simulate</code></td>
+<td><code>boolean</code></td>
+<td>Dry run — never signs or records. <code>checkTrade</code> sets this for you.</td>
+</tr>
+<tr>
+<td><code>idempotency_key</code></td>
+<td><code>string</code></td>
+<td>De-dupe retries of the same trade.</td>
+</tr>
+</tbody></table>
+<p>Buys are gated on the per-trade cap, daily SOL budget, concurrency ceiling, the
+cross-path USD ceiling, and a SOL fee/rent headroom floor (~0.003 SOL kept above
+the spend). Sells only move SOL inward, so they skip the spend caps but still honor
+the kill switch, the price-impact breaker, and the headroom floor.</p>
+<h3 id="getspendlimits-setspendlimitspatch"><a class="anchor" href="#getspendlimits-setspendlimitspatch" aria-label="Link to this section">#</a><code>.getSpendLimits()</code> / <code>.setSpendLimits(patch)</code></h3>
+<p>The cross-path USD spend policy (distinct from the SOL trade limits above), stored
+at <code>meta.spend_limits</code> and enforced uniformly across trade, snipe, x402 pay, and
+withdraw. Patch semantics are identical to the trade limits.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>daily_usd</code></td>
+<td><code>number | null</code></td>
+<td><code>null</code></td>
+<td>Rolling-24h USD-equivalent outflow ceiling.</td>
+</tr>
+<tr>
+<td><code>per_tx_usd</code></td>
+<td><code>number | null</code></td>
+<td><code>null</code></td>
+<td>Max USD-equivalent for any single outbound tx.</td>
+</tr>
+<tr>
+<td><code>withdraw_allowlist</code></td>
+<td><code>string[]</code></td>
+<td><code>[]</code></td>
+<td>If non-empty, withdraws may only target these addresses (max 50, validated base58).</td>
+</tr>
+<tr>
+<td><code>frozen</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>Kill switch for <strong>all</strong> autonomous paths. Owner withdraw stays open.</td>
+</tr>
+</tbody></table>
+<h2 id="how-it-works"><a class="anchor" href="#how-it-works" aria-label="Link to this section">#</a>How it works</h2>
+<p>Every outbound movement of an agent wallet runs through one policy. The guards are
+pure, synchronous predicates — the server fetches the live numbers (open count,
+24h spend, wallet balance, quote) and hands them in, so the <em>same</em> comparison backs
+both the discretionary trade endpoint and the autonomous sniper. A cap can never
+drift between paths.</p>
+<pre><code>   proposed trade (side, mint, amount)
+              │
+              ▼
+        quote the venue ──► price impact, expected out, USD value
+              │
+              ▼
+   ┌──────────────────────── guard pipeline ────────────────────────┐
+   │  kill switch ──► price-impact breaker ──► per-trade SOL cap     │
+   │       ──► concurrency ceiling ──► daily SOL budget (rolling 24h)│
+   │       ──► cross-path USD ceiling ──► SOL fee/rent headroom      │
+   └─────────────────────────────┬───────────────────────────────────┘
+              clear?  ──no──►  4xx { code, message, detail }   (never a 500)
+              │ yes
+              ▼
+   reserve in the custody ledger ──► sign ──► confirm ──► finalize
+</code></pre>
+<p>The two caps that matter most — the rolling daily SOL budget and the daily USD
+ceiling — are enforced <strong>atomically under a per-agent advisory lock</strong>. The check
+and the ledger reservation happen in a single statement, so K concurrent spends
+can never all read the same stale 24h total and all pass, turning an $X/day cap
+into $X·K. A reservation that never settles is released, so a failed attempt does
+not permanently consume the agent&#39;s budget.</p>
+<h2 id="guard-reasons"><a class="anchor" href="#guard-reasons" aria-label="Link to this section">#</a>Guard reasons</h2>
+<p>A blocked trade is always a structured <code>4xx</code> with a machine code and a plain-language
+message — never a thrown 500. <code>checkTrade</code> surfaces these on <code>decision.reason</code>;
+<code>trade</code> rejects with the same shape.</p>
+<table>
+<thead>
+<tr>
+<th><code>reason</code></th>
+<th>HTTP</th>
+<th>Meaning</th>
+<th>Recovery</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kill_switch</code></td>
+<td>403</td>
+<td>Discretionary trading is paused for this agent.</td>
+<td>Re-enable trading (<code>kill_switch: false</code>).</td>
+</tr>
+<tr>
+<td><code>wallet_frozen</code></td>
+<td>403</td>
+<td>The wallet is frozen; all autonomous spending is paused.</td>
+<td>Unfreeze (<code>frozen: false</code>). Owner withdraw still works.</td>
+</tr>
+<tr>
+<td><code>per_trade_cap</code></td>
+<td>422</td>
+<td>The buy exceeds <code>per_trade_sol</code>.</td>
+<td>Lower the amount or raise the cap.</td>
+</tr>
+<tr>
+<td><code>daily_budget</code></td>
+<td>422</td>
+<td>The buy would exceed the rolling-24h SOL budget.</td>
+<td>Wait for the window to roll, or raise the budget.</td>
+</tr>
+<tr>
+<td><code>per_tx_exceeded</code></td>
+<td>403</td>
+<td>The tx exceeds <code>per_tx_usd</code>.</td>
+<td>Lower the amount or raise the per-tx USD limit.</td>
+</tr>
+<tr>
+<td><code>daily_exceeded</code></td>
+<td>403</td>
+<td>The tx would exceed <code>daily_usd</code>.</td>
+<td>Wait, or raise the daily USD limit.</td>
+</tr>
+<tr>
+<td><code>max_positions</code></td>
+<td>409</td>
+<td>Open trades already at <code>max_concurrent</code>.</td>
+<td>Close a position before opening another.</td>
+</tr>
+<tr>
+<td><code>price_impact</code></td>
+<td>422</td>
+<td>Price impact above <code>max_price_impact_pct</code>.</td>
+<td>Lower the trade size or raise the breaker.</td>
+</tr>
+<tr>
+<td><code>insufficient_sol</code></td>
+<td>400</td>
+<td>Wallet can&#39;t cover the spend plus fee/rent headroom.</td>
+<td>Fund the wallet and retry.</td>
+</tr>
+<tr>
+<td><code>destination_not_allowed</code></td>
+<td>403</td>
+<td>Withdraw target not on <code>withdraw_allowlist</code>.</td>
+<td>Add the address, or send to an allowed one.</td>
+</tr>
+</tbody></table>
+<p><code>detail</code> carries the raw numbers — e.g. <code>per_trade_cap</code> returns
+<code>{ amount_lamports, cap_lamports }</code>, <code>daily_budget</code> returns
+<code>{ spent_lamports, amount_lamports, budget_lamports }</code> — so a UI can render the
+exact overage without re-deriving it.</p>
+<h2 id="examples"><a class="anchor" href="#examples" aria-label="Link to this section">#</a>Examples</h2>
+<p><strong>Provision a new agent with conservative rails</strong> before handing it a key:</p>
+<pre><code class="language-js">const a = guards(agentId, { token });
+
+await a.setTradeLimits({
+  per_trade_sol: 0.25,
+  daily_budget_sol: 1,
+  max_concurrent: 3,
+  max_price_impact_pct: 8,
+});
+await a.setSpendLimits({ daily_usd: 100, per_tx_usd: 25 });
+</code></pre>
+<p><strong>Gate an LLM tool call</strong> — let the model propose, but never let it sign past the
+leash:</p>
+<pre><code class="language-js">async function agentBuy({ mint, sol }) {
+  const check = await a.checkTrade({ side: &#39;buy&#39;, mint, amount: sol });
+  if (!check.allowed) {
+    return { ok: false, reason: check.reason, message: check.message };
+  }
+  return a.trade({ side: &#39;buy&#39;, mint, amount: sol, idempotency_key: crypto.randomUUID() });
+}
+</code></pre>
+<p><strong>Emergency stop</strong> — freeze every autonomous path while you investigate, without
+locking yourself out of the funds:</p>
+<pre><code class="language-js">await a.setSpendLimits({ frozen: true }); // trades, snipes, x402 all rejected; withdraw stays open
+</code></pre>
+<p><strong>Read the policy under the hood</strong> — the raw HTTP this SDK wraps:</p>
+<pre><code class="language-js">const res = await fetch(`https://three.ws/api/agents/${agentId}/trade/limits`, {
+  headers: { authorization: `Bearer ${token}` },
+});
+const { data } = await res.json(); // { limits, defaults }
+</code></pre>
+<h2 id="related"><a class="anchor" href="#related" aria-label="Link to this section">#</a>Related</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/@three-ws/x402-fetch"><code>@three-ws/x402-fetch</code></a> — auto-pay x402 endpoints; the same spend policy governs every payment.</li>
+<li><a href="https://www.npmjs.com/package/@three-ws/forge"><code>@three-ws/forge</code></a> — give your guarded agent a 3D body.</li>
+</ul>
+<hr>
+<p align="center">Built by <a href="https://three.ws">three.ws</a> · The only coin is <a href="https://three.ws">$THREE</a></p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#why">Why</a></li><li><a href="#install">Install</a></li><li><a href="#quick-start">Quick start</a></li><li><a href="#local-guards-no-network-no-token">Local guards (no network, no token)</a></li><li><a href="#api">API</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#guard-reasons">Guard reasons</a></li><li><a href="#examples">Examples</a></li><li><a href="#related">Related</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/agent-guards/issues">Issues</a><a href="https://github.com/nirholas/agent-guards/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/agent-guards/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>
